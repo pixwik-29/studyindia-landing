@@ -796,7 +796,7 @@ img {
 }
 
 .badge-top-left {
-  top: 10%;
+  top: 22%;
   left: -5%;
   animation-delay: 3s;
 }
@@ -870,6 +870,22 @@ img {
   .hero-slide-img {
     border-radius: 0;
   }
+
+  .badge-top-right {
+    top: 20px;
+    right: 20px;
+    left: auto;
+  }
+
+  .badge-top-left {
+    top: 75px;
+    left: 20px;
+    right: auto;
+  }
+
+  .floating-badge {
+    max-width: calc(100% - 40px);
+  }
 }
 
 @media (max-width: 768px) {
@@ -938,6 +954,7 @@ img {
     border-radius: var(--radius-sm);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
     animation: mobile-float 5s ease-in-out infinite;
+    max-width: calc(100% - 20px);
   }
   .badge-icon {
     width: 18px;
@@ -950,11 +967,13 @@ img {
   .badge-top-right {
     top: 10px;
     right: 10px;
+    left: auto;
     animation-delay: 0s;
   }
   .badge-top-left {
-    top: 10px;
+    top: 52px;
     left: 10px;
+    right: auto;
     animation-delay: 2.5s;
   }
 }
