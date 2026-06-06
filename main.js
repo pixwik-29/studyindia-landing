@@ -444,4 +444,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 100);
   };
 
+  // ==========================================================================
+  // 8. HERO SLIDESHOW TIMER (1 SECOND INTERVALS)
+  // ==========================================================================
+  const slides = document.querySelectorAll('.hero-slide');
+  let currentSlideIndex = 0;
+
+  if (slides.length > 0) {
+    setInterval(() => {
+      slides[currentSlideIndex].classList.remove('active');
+      currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+      slides[currentSlideIndex].classList.add('active');
+    }, 1000);
+  }
+
 });
