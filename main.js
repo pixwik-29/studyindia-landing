@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================================================
   // 4. AUTO-FILL COLLEGE SELECTION
   // ==========================================================================
-  const collegeEnquireBtns = document.querySelectorAll('.college-enquire-btn');
+  const collegeEnquireBtns = document.querySelectorAll('.college-enquire-btn, .slide-cta-btn');
   const collegeSelect = document.getElementById('preferred-college');
 
   // Map college names from data-college to form option values
@@ -455,7 +455,7 @@ document.addEventListener('DOMContentLoaded', () => {
       slides[currentSlideIndex].classList.remove('active');
       currentSlideIndex = (currentSlideIndex + 1) % slides.length;
       slides[currentSlideIndex].classList.add('active');
-    }, 1000);
+    }, 4000);
   }
 
 });
