@@ -80,8 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
         this.classList.add('active');
       }
 
-      // Calculate header offset height dynamically
-      const offsetHeight = header.classList.contains('scrolled') ? 70 : 80;
+      // Calculate header offset height dynamically based on the scrolled state it will have
+      const wasScrolled = header.classList.contains('scrolled');
+      if (!wasScrolled) header.classList.add('scrolled');
+      const offsetHeight = header.offsetHeight;
+      if (!wasScrolled) header.classList.remove('scrolled');
       const elementPosition = targetElement.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.scrollY - offsetHeight;
 
@@ -132,7 +135,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Smooth scroll to form section
       const contactSection = document.getElementById('contact');
-      const offsetHeight = header.classList.contains('scrolled') ? 70 : 80;
+      const wasScrolled = header.classList.contains('scrolled');
+      if (!wasScrolled) header.classList.add('scrolled');
+      const offsetHeight = header.offsetHeight;
+      if (!wasScrolled) header.classList.remove('scrolled');
       const elementPosition = contactSection.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.scrollY - offsetHeight;
 

@@ -334,7 +334,7 @@ img {
 
 .logo-img {
   object-fit: contain;
-  transition: transform var(--transition-normal);
+  transition: transform var(--transition-normal), width var(--transition-normal), height var(--transition-normal);
 }
 
 .logo-area:hover .logo-img {
@@ -493,6 +493,23 @@ img {
   
   .mobile-menu-toggle[aria-expanded="true"] .bar:nth-child(3) {
     transform: translateY(-7px) rotate(-45deg);
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --header-height: 60px;
+  }
+  .main-header.scrolled {
+    height: 50px;
+  }
+  .logo-img {
+    width: 40px;
+    height: 40px;
+  }
+  .main-header.scrolled .logo-img {
+    width: 32px;
+    height: 32px;
   }
 }
 
