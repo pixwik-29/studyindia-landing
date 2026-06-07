@@ -2313,8 +2313,8 @@ img {
 }
 
 .disclaimer {
-  line-height: 1.5;
-  text-align: justify;
+  line-height: 1.6;
+  text-align: left;
 }
 
 @media (max-width: 992px) {
