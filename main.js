@@ -1,10 +1,75 @@
 /**
  * STUDY INDIA MBBS - LANDING PAGE INTERACTION & LOGIC
- * Includes: Sticky Nav, Mobile Menu, Auto-Fill selectors, Count-Up Stats,
- * Scroll Animations, and Accessible Form Validations.
+ * Includes: Sticky Nav, Mobile Menu, Modal Popup Form, Dynamic State-based College Filter,
+ * Count-Up Stats, Scroll Animations, and Accessible Form Validations.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+
+  // College names grouped by state
+  const collegeData = {
+    'tamil-nadu': [
+      { value: 'srm', label: 'SRM Medical College' },
+      { value: 'saveetha', label: 'Saveetha Medical College' },
+      { value: 'ramachandra', label: 'Sri Ramachandra Medical College' },
+      { value: 'chettinad', label: 'Chettinad Hospital & Research (CARE)' },
+      { value: 'balaji', label: 'Mahatma Gandhi Medical College (Sri Balaji Vidyapeeth)' },
+      { value: 'vels', label: 'Vels Medical College' },
+      { value: 'psg', label: 'PSG Institute of Medical Sciences' },
+      { value: 'cmc-vellore', label: 'Christian Medical College (CMC Vellore)' },
+      { value: 'other-tn', label: 'Other College in Tamil Nadu' }
+    ],
+    'andhra-telangana': [
+      { value: 'kamineni', label: 'Kamineni Institute of Medical Sciences' },
+      { value: 'malla-reddy', label: 'Malla Reddy Institute of Medical Sciences' },
+      { value: 'nri-academy', label: 'NRI Academy of Medical Sciences' },
+      { value: 'apollo', label: 'Apollo Institute of Medical Sciences' },
+      { value: 'mamata', label: 'Mamata Medical College' },
+      { value: 'other-ap-tg', label: 'Other College in AP / Telangana' }
+    ],
+    'karnataka': [
+      { value: 'kmc-manipal', label: 'Kasturba Medical College (KMC Manipal)' },
+      { value: 'ramaiah', label: 'MS Ramaiah Medical College' },
+      { value: 'jss', label: 'JSS Medical College' },
+      { value: 'st-johns', label: "St. John's Medical College" },
+      { value: 'ks-hegde', label: 'K.S. Hegde Medical Academy' },
+      { value: 'other-ka', label: 'Other College in Karnataka' }
+    ],
+    'maharashtra': [
+      { value: 'dy-patil', label: 'DY Patil Medical College (Pune)' },
+      { value: 'krishna', label: 'Krishna Institute of Medical Sciences (Karad)' },
+      { value: 'bharati-vidyapeeth', label: 'Bharati Vidyapeeth Medical College (Pune)' },
+      { value: 'mgm', label: 'MGM Medical College (Navi Mumbai)' },
+      { value: 'pravara', label: 'Pravara Institute of Medical Sciences' },
+      { value: 'other-mh', label: 'Other College in Maharashtra' }
+    ],
+    'uttar-pradesh': [
+      { value: 'sharda', label: 'Sharda University School of Medical Sciences' },
+      { value: 'subharti', label: 'Subharti Medical College' },
+      { value: 'eras-lucknow', label: "Era's Lucknow Medical College" },
+      { value: 'santosh', label: 'Santosh Medical College' },
+      { value: 'rohilkhand', label: 'Rohilkhand Medical College' },
+      { value: 'other-up', label: 'Other College in Uttar Pradesh' }
+    ],
+    'other': [
+      { value: 'other-pan-india', label: 'Other Colleges (PAN India)' }
+    ]
+  };
+
+  // Map college names from data-college to state and college values
+  const collegeMapping = {
+    'SRM Medical College': { state: 'tamil-nadu', college: 'srm' },
+    'Saveetha Medical College': { state: 'tamil-nadu', college: 'saveetha' },
+    'Sri Ramachandra Medical College': { state: 'tamil-nadu', college: 'ramachandra' },
+    'Chettinad Hospital & Research Institute': { state: 'tamil-nadu', college: 'chettinad' },
+    'Sri Balaji Vidyapeeth': { state: 'tamil-nadu', college: 'balaji' },
+    'Vels Medical College': { state: 'tamil-nadu', college: 'vels' },
+    'Tamilnadu Medical Colleges': { state: 'tamil-nadu', college: 'other-tn' },
+    'Andhra & Telengana Medical Colleges': { state: 'andhra-telangana', college: 'other-ap-tg' },
+    'Karnataka Medical Colleges': { state: 'karnataka', college: 'other-ka' },
+    'Maharastra Medical Colleges': { state: 'maharashtra', college: 'other-mh' },
+    'Uttar Pradesh Medical Colleges': { state: 'uttar-pradesh', college: 'other-up' }
+  };
 
   // ==========================================================================
   // 1. STICKY HEADER SCROLL EFFECT
@@ -46,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   navLinks.forEach(link => {
     link.addEventListener('click', () => {
-      // Small timeout to allow smooth scroll logic to start first
+      // Small timeout to allow smooth scroll or modal trigger to start first
       setTimeout(closeMenu, 150);
     });
   });
@@ -61,7 +126,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ==========================================================================
-  // 3. SMOOTH SCROLL WITH HEADER OFFSET
+  // 3. MODAL POPUP FOR ENQUIRY FORM
+  // ==========================================================================
+  const modal = document.getElementById('enquiry-modal');
+  const modalCloseBtn = document.getElementById('modal-close-btn');
+
+  const openModal = () => {
+    if (modal) {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      // Shift focus to modal title for accessibility
+      const modalTitle = document.getElementById('modal-title');
+      if (modalTitle) {
+        modalTitle.setAttribute('tabindex', '-1');
+        modalTitle.focus();
+      }
+    }
+  };
+
+  const closeModal = () => {
+    if (modal) {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  };
+
+  if (modalCloseBtn) {
+    modalCloseBtn.addEventListener('click', closeModal);
+  }
+
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal && modal.classList.contains('active')) {
+      closeModal();
+    }
+  });
+
+
+  // ==========================================================================
+  // 4. SMOOTH SCROLL WITH HEADER OFFSET (EXCEPT FORM CTAs)
   // ==========================================================================
   const allScrollLinks = document.querySelectorAll('a[href^="#"]:not(.skip-link)');
 
@@ -70,6 +178,12 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       const targetId = this.getAttribute('href');
       if (targetId === '#') return;
+
+      // Intercept form section link and open popup modal instead
+      if (targetId === '#contact') {
+        openModal();
+        return;
+      }
 
       const targetElement = document.querySelector(targetId);
       if (!targetElement) return;
@@ -101,63 +215,88 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ==========================================================================
-  // 4. AUTO-FILL COLLEGE SELECTION
+  // 5. COLLEGE SELECTION & POPUP TRIGGERS
   // ==========================================================================
-  const collegeEnquireBtns = document.querySelectorAll('.college-enquire-btn, .slide-cta-btn');
+  const collegeEnquireBtns = document.querySelectorAll('.college-enquire-btn, .slide-cta-btn, .open-enquiry-btn');
+  const stateSelect = document.getElementById('preferred-state');
   const collegeSelect = document.getElementById('preferred-college');
 
-  // Map college names from data-college to form option values
-  const collegeMapping = {
-    'SRM Medical College': 'srm',
-    'Saveetha Medical College': 'saveetha',
-    'Sri Ramachandra Medical College': 'ramachandra',
-    'Chettinad Hospital & Research Institute': 'chettinad',
-    'Sri Balaji Vidyapeeth': 'balaji',
-    'Vels Medical College': 'vels',
-    'Tamilnadu Medical Colleges': 'other',
-    'Andhra & Telengana Medical Colleges': 'other',
-    'Karnataka Medical Colleges': 'other',
-    'Maharastra Medical Colleges': 'other',
-    'Uttar Pradesh Medical Colleges': 'other'
+  const populateColleges = (stateValue, selectedCollegeValue = '') => {
+    if (!collegeSelect) return;
+    
+    collegeSelect.innerHTML = '';
+    
+    if (!stateValue) {
+      const defaultOption = document.createElement('option');
+      defaultOption.value = '';
+      defaultOption.disabled = true;
+      defaultOption.selected = true;
+      defaultOption.textContent = 'Select State First';
+      collegeSelect.appendChild(defaultOption);
+      return;
+    }
+    
+    const colleges = collegeData[stateValue] || [];
+    
+    const placeholderOption = document.createElement('option');
+    placeholderOption.value = '';
+    placeholderOption.disabled = true;
+    placeholderOption.selected = !selectedCollegeValue;
+    placeholderOption.textContent = 'Select Institution';
+    collegeSelect.appendChild(placeholderOption);
+    
+    colleges.forEach(col => {
+      const option = document.createElement('option');
+      option.value = col.value;
+      option.textContent = col.label;
+      if (selectedCollegeValue && col.value === selectedCollegeValue) {
+        option.selected = true;
+      }
+      collegeSelect.appendChild(option);
+    });
   };
+
+  // Setup state change listener to dynamically change colleges
+  if (stateSelect) {
+    stateSelect.addEventListener('change', () => {
+      populateColleges(stateSelect.value);
+    });
+  }
 
   collegeEnquireBtns.forEach(btn => {
     btn.addEventListener('click', function(e) {
       e.preventDefault();
+      openModal();
+
       const collegeName = this.getAttribute('data-college');
-      const mappedValue = collegeMapping[collegeName];
-
-      if (mappedValue && collegeSelect) {
-        collegeSelect.value = mappedValue;
-        // Trigger select field styling adjustments if needed
-        collegeSelect.dispatchEvent(new Event('change'));
+      if (collegeName && collegeMapping[collegeName]) {
+        const mapped = collegeMapping[collegeName];
+        if (stateSelect) {
+          stateSelect.value = mapped.state;
+          stateSelect.dispatchEvent(new Event('change'));
+        }
+        if (collegeSelect) {
+          populateColleges(mapped.state, mapped.college);
+        }
+      } else {
+        // Reset state/college selects to placeholder if generic button clicked
+        if (stateSelect) {
+          stateSelect.value = '';
+          populateColleges('');
+        }
       }
-
-      // Smooth scroll to form section
-      const contactSection = document.getElementById('contact');
-      const wasScrolled = header.classList.contains('scrolled');
-      if (!wasScrolled) header.classList.add('scrolled');
-      const offsetHeight = header.offsetHeight;
-      if (!wasScrolled) header.classList.remove('scrolled');
-      const elementPosition = contactSection.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.scrollY - offsetHeight;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
 
       // Shift focus to form input for accessibility
       setTimeout(() => {
         const firstInput = document.getElementById('fullname');
         if (firstInput) firstInput.focus();
-      }, 800);
+      }, 500);
     });
   });
 
 
   // ==========================================================================
-  // 5. INTERACTIVE SCROLL ANIMATIONS (INTERSECTION OBSERVER)
+  // 6. INTERACTIVE SCROLL ANIMATIONS (INTERSECTION OBSERVER)
   // ==========================================================================
   const animatedElements = document.querySelectorAll('.fade-in, .hero-stats');
 
@@ -177,7 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ==========================================================================
-  // 6. STATS NUMBER COUNT-UP ANIMATION
+  // 7. STATS NUMBER COUNT-UP ANIMATION
   // ==========================================================================
   const statNumbers = document.querySelectorAll('.stat-card-num');
 
@@ -223,7 +362,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ==========================================================================
-  // 7. FORM VALIDATION LOGIC (Modern Forms Guideline Compliant)
+  // 8. FORM VALIDATION LOGIC (Modern Forms Guideline Compliant)
   // ==========================================================================
   const form = document.getElementById('enquiry-form');
   const submitBtn = document.getElementById('submit-button');
@@ -234,7 +373,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const email = document.getElementById('email');
   const phone = document.getElementById('phone');
   const neetscore = document.getElementById('neetscore');
-  const college = document.getElementById('preferred-college');
   const quota = document.getElementById('quota');
   const consent = document.getElementById('consent');
   const honeypot = document.getElementById('website-field');
@@ -244,6 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const emailError = document.getElementById('email-error');
   const phoneError = document.getElementById('phone-error');
   const neetError = document.getElementById('neet-error');
+  const stateError = document.getElementById('state-error');
   const collegeError = document.getElementById('college-error');
   const quotaError = document.getElementById('quota-error');
   const consentError = document.getElementById('consent-error');
@@ -310,12 +449,23 @@ document.addEventListener('DOMContentLoaded', () => {
     return true;
   };
 
-  const validateCollege = () => {
-    if (!college.value) {
-      showError(college, collegeError, 'Please select a preferred college.');
+  const validateState = () => {
+    if (!stateSelect) return true;
+    if (!stateSelect.value) {
+      showError(stateSelect, stateError, 'Please select a preferred state.');
       return false;
     }
-    clearError(college, collegeError);
+    clearError(stateSelect, stateError);
+    return true;
+  };
+
+  const validateCollege = () => {
+    if (!collegeSelect) return true;
+    if (!collegeSelect.value) {
+      showError(collegeSelect, collegeError, 'Please select a preferred college.');
+      return false;
+    }
+    clearError(collegeSelect, collegeError);
     return true;
   };
 
@@ -347,75 +497,86 @@ document.addEventListener('DOMContentLoaded', () => {
   const clearError = (inputElement, errorElement) => {
     inputElement.closest('.form-group').classList.remove('invalid');
     inputElement.removeAttribute('aria-invalid');
-    errorElement.textContent = '';
+    if (errorElement) errorElement.textContent = '';
   };
 
   // Event validation triggers:
   // RULE: Clear errors on 'input' (active typing)
-  fullname.addEventListener('input', () => clearError(fullname, nameError));
-  email.addEventListener('input', () => clearError(email, emailError));
-  phone.addEventListener('input', () => clearError(phone, phoneError));
-  neetscore.addEventListener('input', () => clearError(neetscore, neetError));
-  college.addEventListener('change', () => clearError(college, collegeError));
-  quota.addEventListener('change', () => clearError(quota, quotaError));
-  consent.addEventListener('change', () => {
-    if (consent.checked) clearError(consent, consentError);
-  });
+  if (fullname) fullname.addEventListener('input', () => clearError(fullname, nameError));
+  if (email) email.addEventListener('input', () => clearError(email, emailError));
+  if (phone) phone.addEventListener('input', () => clearError(phone, phoneError));
+  if (neetscore) neetscore.addEventListener('input', () => clearError(neetscore, neetError));
+  if (stateSelect) {
+    stateSelect.addEventListener('change', () => clearError(stateSelect, stateError));
+    stateSelect.addEventListener('blur', validateState);
+  }
+  if (collegeSelect) {
+    collegeSelect.addEventListener('change', () => clearError(collegeSelect, collegeError));
+    collegeSelect.addEventListener('blur', validateCollege);
+  }
+  if (quota) {
+    quota.addEventListener('change', () => clearError(quota, quotaError));
+    quota.addEventListener('blur', validateQuota);
+  }
+  if (consent) {
+    consent.addEventListener('change', () => {
+      if (consent.checked) clearError(consent, consentError);
+    });
+  }
 
   // RULE: Run check and show error on 'blur' / 'focusout' (exiting the field)
-  fullname.addEventListener('blur', validateName);
-  email.addEventListener('blur', validateEmail);
-  phone.addEventListener('blur', validatePhone);
-  neetscore.addEventListener('blur', validateNeetScore);
-  college.addEventListener('blur', validateCollege);
-  quota.addEventListener('blur', validateQuota);
+  if (fullname) fullname.addEventListener('blur', validateName);
+  if (email) email.addEventListener('blur', validateEmail);
+  if (phone) phone.addEventListener('blur', validatePhone);
+  if (neetscore) neetscore.addEventListener('blur', validateNeetScore);
 
   // Form submission handler
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
 
-    // Spam Check: Check Honeypot Field
-    if (honeypot.value) {
-      console.warn('Spam submission detected via honeypot.');
-      // Silently discard and simulate success to spammers
-      showSuccessState();
-      return;
-    }
-
-    // Run all validations
-    const isNameValid = validateName();
-    const isEmailValid = validateEmail();
-    const isPhoneValid = validatePhone();
-    const isNeetValid = validateNeetScore();
-    const isCollegeValid = validateCollege();
-    const isQuotaValid = validateQuota();
-    const isConsentValid = validateConsent();
-
-    const isFormValid = isNameValid && isEmailValid && isPhoneValid && isNeetValid && isCollegeValid && isQuotaValid && isConsentValid;
-
-    if (!isFormValid) {
-      // Focus the first invalid field for accessibility
-      const firstInvalidGroup = formContainer.querySelector('.form-group.invalid');
-      if (firstInvalidGroup) {
-        const inputToFocus = firstInvalidGroup.querySelector('input, select, textarea');
-        if (inputToFocus) inputToFocus.focus();
+      // Spam Check: Check Honeypot Field
+      if (honeypot.value) {
+        console.warn('Spam submission detected via honeypot.');
+        showSuccessState();
+        return;
       }
-      return;
-    }
 
-    // Submit state: Disable button to prevent double-submits
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Processing request...';
+      // Run all validations
+      const isNameValid = validateName();
+      const isEmailValid = validateEmail();
+      const isPhoneValid = validatePhone();
+      const isNeetValid = validateNeetScore();
+      const isStateValid = validateState();
+      const isCollegeValid = validateCollege();
+      const isQuotaValid = validateQuota();
+      const isConsentValid = validateConsent();
 
-    // Simulate AJAX Request
-    setTimeout(() => {
-      showSuccessState();
-    }, 1500);
-  });
+      const isFormValid = isNameValid && isEmailValid && isPhoneValid && isNeetValid && isStateValid && isCollegeValid && isQuotaValid && isConsentValid;
+
+      if (!isFormValid) {
+        // Focus the first invalid field for accessibility
+        const firstInvalidGroup = formContainer.querySelector('.form-group.invalid');
+        if (firstInvalidGroup) {
+          const inputToFocus = firstInvalidGroup.querySelector('input, select, textarea');
+          if (inputToFocus) inputToFocus.focus();
+        }
+        return;
+      }
+
+      // Submit state: Disable button to prevent double-submits
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Processing request...';
+
+      // Simulate AJAX Request
+      setTimeout(() => {
+        showSuccessState();
+      }, 1500);
+    });
+  }
 
   // Success state handler
   const showSuccessState = () => {
-    // Create and inject Success Overlay dynamically if not present
     let successOverlay = formContainer.querySelector('.form-success-overlay');
     if (!successOverlay) {
       successOverlay = document.createElement('div');
@@ -428,15 +589,13 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
       formContainer.appendChild(successOverlay);
       
-      // Hook up 'Okay' button click to clear form and close overlay
+      // Hook up 'Okay' button click to clear form, close overlay, and close modal
       document.getElementById('success-done-btn').addEventListener('click', () => {
         successOverlay.classList.remove('active');
         form.reset();
         submitBtn.disabled = false;
         submitBtn.textContent = 'Request Free Counselling Session';
-        
-        // Return focus to form heading
-        formContainer.querySelector('.form-title').focus();
+        closeModal();
       });
     }
 
@@ -446,17 +605,15 @@ document.addEventListener('DOMContentLoaded', () => {
     successOverlay.setAttribute('aria-modal', 'true');
     successOverlay.setAttribute('aria-labelledby', 'success-dialog-title');
     
-    // Set ID for dialog accessibility
     successOverlay.querySelector('.success-title').id = 'success-dialog-title';
     
-    // Focus the 'Okay' button in the success dialog
     setTimeout(() => {
       document.getElementById('success-done-btn').focus();
     }, 100);
   };
 
   // ==========================================================================
-  // 8. HERO SLIDESHOW TIMER (1 SECOND INTERVALS)
+  // 9. HERO SLIDESHOW TIMER (4 SECOND INTERVALS)
   // ==========================================================================
   const slides = document.querySelectorAll('.hero-slide');
   let currentSlideIndex = 0;
