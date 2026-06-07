@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
       { value: 'other-tn', label: 'Other College in Tamil Nadu' }
     ],
     'andhra-telangana': [
+      // Andhra Pradesh Colleges
       { value: 'alluri', label: 'Alluri Sitaram Raju Academy of Medical Sciences' },
       { value: 'apollo-ap', label: 'Apollo Institute of Medical Sciences and Research' },
       { value: 'psi', label: 'Dr. P.S.I. Medical College' },
@@ -67,9 +68,31 @@ document.addEventListener('DOMContentLoaded', () => {
       { value: 'balaji-ap', label: 'Sri Balaji Medical College, Hospital and Research Institute' },
       { value: 'svims', label: 'SVIMS - Sri Padmavathi Medical College for Women' },
       { value: 'viswabharathi', label: 'Viswabharathi Medical College' },
+      // Telangana Colleges
+      { value: 'apollo-hyd', label: 'Apollo Institute of Medical Sciences and Research Hyderabad' },
+      { value: 'arundathi', label: 'Arundathi Institute of Medical Sciences' },
+      { value: 'ayaan', label: 'Ayaan Institute of Medical Sciences, Teaching Hospital & Research Centre' },
+      { value: 'bhaskar', label: 'Bhaskar Medical College' },
+      { value: 'chalmeda', label: 'Chalmeda Anand Rao Institute Of Medical Sciences' },
+      { value: 'cmr', label: 'CMR Institute of Medical Sciences' },
+      { value: 'deccan', label: 'Deccan College of Medical Sciences' },
+      { value: 'patnam-reddy', label: 'Dr. Patnam Mahender Reddy Institute of Medical Sciences' },
+      { value: 'vrk-women', label: "Dr. VRK Women's Medical College" },
+      { value: 'rvm', label: 'RVM Institute of medical sciences and Research Center' },
+      { value: 'svs', label: 'SVS Medical College' },
+      { value: 'kamineni-academy', label: 'Kamineni Academy of Medical Sciences & Research Center' },
       { value: 'kamineni', label: 'Kamineni Institute of Medical Sciences' },
+      { value: 'mahavir', label: 'Mahavir Institute of Medical Sciences' },
+      { value: 'maheshwara', label: 'Maheshwara Medical College' },
       { value: 'malla-reddy', label: 'Malla Reddy Institute of Medical Sciences' },
+      { value: 'malla-reddy-women', label: 'Mallareddy Medical College for Women' },
+      { value: 'mamata-academy', label: 'Mamata Academy of Medical Sciences' },
       { value: 'mamata', label: 'Mamata Medical College' },
+      { value: 'mediciti', label: 'Mediciti Institute Of Medical Sciences' },
+      { value: 'mnr', label: 'MNR Medical College & Hospital' },
+      { value: 'neelima', label: 'Neelima Institute of Medical Sciences' },
+      { value: 'prathima', label: 'Prathima Institute Of Medical Sciences' },
+      { value: 'prathima-relief', label: 'Prathima Relief Institute of Medical Sciences' },
       { value: 'other-ap-tg', label: 'Other College in AP / Telangana' }
     ],
     'karnataka': [
