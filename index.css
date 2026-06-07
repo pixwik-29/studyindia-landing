@@ -1022,15 +1022,15 @@ img {
 }
 
 .why-svg {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   stroke-width: 1.5;
 }
 
 .why-item-title {
   font-family: var(--font-body);
-  font-size: 1.15rem;
-  font-weight: 700;
+  font-size: 0.95rem;
+  font-weight: 600;
   color: var(--color-white);
   margin: 0;
   line-height: 1.4;
@@ -1047,16 +1047,16 @@ img {
 
 @media (max-width: 576px) {
   .why-us-section {
-    padding: 3.5rem 0;
+    padding: 3rem 0;
   }
   
   .why-svg {
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
   }
   
   .why-item-title {
-    font-size: 0.95rem;
+    font-size: 0.85rem;
   }
 }
 
