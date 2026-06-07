@@ -110,7 +110,12 @@ document.addEventListener('DOMContentLoaded', () => {
     'Sri Ramachandra Medical College': 'ramachandra',
     'Chettinad Hospital & Research Institute': 'chettinad',
     'Sri Balaji Vidyapeeth': 'balaji',
-    'Vels Medical College': 'vels'
+    'Vels Medical College': 'vels',
+    'Tamilnadu Medical Colleges': 'other',
+    'Andhra & Telengana Medical Colleges': 'other',
+    'Karnataka Medical Colleges': 'other',
+    'Maharastra Medical Colleges': 'other',
+    'Uttar Pradesh Medical Colleges': 'other'
   };
 
   collegeEnquireBtns.forEach(btn => {
