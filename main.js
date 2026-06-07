@@ -507,7 +507,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const email = document.getElementById('email');
   const phone = document.getElementById('phone');
   const neetscore = document.getElementById('neetscore');
-  const quota = document.getElementById('quota');
   const consent = document.getElementById('consent');
   const honeypot = document.getElementById('website-field');
 
@@ -518,7 +517,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const neetError = document.getElementById('neet-error');
   const stateError = document.getElementById('state-error');
   const collegeError = document.getElementById('college-error');
-  const quotaError = document.getElementById('quota-error');
   const consentError = document.getElementById('consent-error');
 
   // RegEx patterns
@@ -603,14 +601,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return true;
   };
 
-  const validateQuota = () => {
-    if (!quota.value) {
-      showError(quota, quotaError, 'Please select a preferred quota.');
-      return false;
-    }
-    clearError(quota, quotaError);
-    return true;
-  };
 
   const validateConsent = () => {
     if (!consent.checked) {
@@ -648,10 +638,6 @@ document.addEventListener('DOMContentLoaded', () => {
     collegeSelect.addEventListener('change', () => clearError(collegeSelect, collegeError));
     collegeSelect.addEventListener('blur', validateCollege);
   }
-  if (quota) {
-    quota.addEventListener('change', () => clearError(quota, quotaError));
-    quota.addEventListener('blur', validateQuota);
-  }
   if (consent) {
     consent.addEventListener('change', () => {
       if (consent.checked) clearError(consent, consentError);
@@ -683,10 +669,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const isNeetValid = validateNeetScore();
       const isStateValid = validateState();
       const isCollegeValid = validateCollege();
-      const isQuotaValid = validateQuota();
       const isConsentValid = validateConsent();
 
-      const isFormValid = isNameValid && isEmailValid && isPhoneValid && isNeetValid && isStateValid && isCollegeValid && isQuotaValid && isConsentValid;
+      const isFormValid = isNameValid && isEmailValid && isPhoneValid && isNeetValid && isStateValid && isCollegeValid && isConsentValid;
 
       if (!isFormValid) {
         // Focus the first invalid field for accessibility
